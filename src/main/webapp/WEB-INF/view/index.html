@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>登录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="application/x-javascript">
+			addEventListener("load", function() {
+				setTimeout(function (){
+					window.scrollTo(0,1);
+				} , 0);
+			}, false);
+		</script>
+		<!-- css files -->
+		<link href="commons/css/index.css" rel='stylesheet' type='text/css'
+			media="all" />
+		<!-- /css files -->
+	</head>
+	<body>
+		<h1>XXXXXX系统</h1>
+		<div class="log">
+			<div class="content1">
+				<h2>安全登录</h2>
+				<form action="login.html" method="post">
+					<input type="text" name="user_name" placeholder="USERNAME" required th:value="${user_name}" />
+					<input type="password" name="password" placeholder="PASSWORD" required />
+					<div class="msg_panel" th:classappend="${message == null}? 'hide'" th:text="${message}">提示框</div>
+					<div class="button-row">
+						<input type="submit" class="sign-in" value="登录" />
+						<input type="reset" class="reset" value="重置" />
+						<div class="clear"></div>
+					</div>
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</body>
+</html>
