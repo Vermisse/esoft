@@ -1,13 +1,12 @@
 package com.soft.web.controller.login;
 
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.*;
 
 import javax.annotation.*;
 import javax.servlet.http.*;
 
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
@@ -49,7 +48,7 @@ public class LoginController {
 		}
 
 		String auth = null;
-		do{
+		do {
 			auth = Text.randomText(18);
 		} while (Redis.checkAuth(redis, auth));
 		
@@ -57,12 +56,13 @@ public class LoginController {
 		cookie.setMaxAge(Integer.MAX_VALUE);
 		response.addCookie(cookie);
 		
-		Map<String, String> user = new HashMap<String, String>();
-		map.forEach((k, v) -> user.put(k, String.valueOf(v)));
-		user.put("user-agent", request.getHeader("user-agent"));
-		user.put("datetime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
-		
-		model.addAttribute("message", Redis.add(redis, auth, user) ? "登录成功！" : "登录失败！");
+		model.addAttribute("message", Redis.add(redis, auth, new HashMap<String, String>() {
+			{
+				put("user-agent", request.getHeader("user-agent"));
+				put("datetime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+				map.forEach((k, v) -> put(k, String.valueOf(v)));
+			}
+		}) ? "登录成功！" : "登录失败！");
 		return "index";
 	}
 }
