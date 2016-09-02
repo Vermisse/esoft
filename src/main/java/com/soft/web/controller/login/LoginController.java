@@ -1,6 +1,5 @@
 package com.soft.web.controller.login;
 
-import java.text.*;
 import java.util.*;
 
 import javax.annotation.*;
@@ -25,8 +24,10 @@ public class LoginController {
 	private RedisTemplate<String, Object> redis;
 
 	@RequestMapping("/index")
-	public String index() {
-		return "index";
+	public String index(HttpServletRequest request) {
+		if (request.getAttribute("user") == null)
+			return "index";
+		return "main";
 	}
 
 	@RequestMapping(value = "/login")
@@ -55,14 +56,19 @@ public class LoginController {
 		Cookie cookie = new Cookie("auth", auth);
 		cookie.setMaxAge(Integer.MAX_VALUE);
 		response.addCookie(cookie);
-		
-		model.addAttribute("message", Redis.add(redis, auth, new HashMap<String, String>() {
+
+		boolean status = Redis.save(redis, auth, new HashMap<String, String>() {
 			{
 				put("user-agent", request.getHeader("user-agent"));
-				put("datetime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
 				map.forEach((k, v) -> put(k, String.valueOf(v)));
 			}
-		}) ? "登录成功！" : "登录失败！");
-		return "index";
+		});
+		if (status) {
+			model.addAttribute("user_name", null);
+			return "redirect:index.html";
+		} else {
+			model.addAttribute("message", "登录失败！");
+			return "index";
+		}
 	}
 }

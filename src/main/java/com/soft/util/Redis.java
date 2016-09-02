@@ -24,19 +24,20 @@ public class Redis {
 	}
 
 	/**
-	 * 添加Map
+	 * 保存Map
 	 * @param key
 	 * @return
 	 */
-	public static boolean add(final RedisTemplate<String, Object> redisTemplate, final String key, final Map<String, String> map) {
+	public static boolean save(final RedisTemplate<String, Object> redisTemplate, final String key, final Map<String, String> map) {
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
 			public Boolean doInRedis(RedisConnection connection) {
 				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);
-				
-				try{
+
+				try {
 					ops.putAll(map);
+					delay(redisTemplate, key);
 					return true;
-				}catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 					return false;
 				}
@@ -49,24 +50,50 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static Map<String, String> getMap(final RedisTemplate<String, Object> redisTemplate, final String key, final String... keys) {
+	public static Map<String, String> getMap(final RedisTemplate<String, Object> redisTemplate, final String key) {
 		return redisTemplate.execute(new RedisCallback<Map<String, String>>() {
 			public Map<String, String> doInRedis(RedisConnection connection) {
-				byte[] bkey = redisTemplate.getStringSerializer().serialize(key);
-				if (connection.exists(bkey)) {
-					byte[][] params = new byte[keys.length][];
-					for (int i = 0; i < keys.length; i++)
-						params[i] = redisTemplate.getStringSerializer().serialize(keys[i]);
+				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);
 
-					List<byte[]> value = connection.hMGet(bkey, params);
+				return ops.entries();
+			}
+		});
+	}
 
-					Map<String, String> map = new HashMap<String, String>();
-
-					for (int i = 0; i < keys.length; i++)
-						map.put(keys[i], redisTemplate.getStringSerializer().deserialize(value.get(i)));
-					return map;
+	/**
+	 * 删除元素
+	 * @param key
+	 * @return
+	 */
+	public static boolean delete(final RedisTemplate<String, Object> redisTemplate, final String key) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			public Boolean doInRedis(RedisConnection connection) {
+				try {
+					connection.del(redisTemplate.getStringSerializer().serialize(key));
+					return true;
+				} catch (Exception e) {
+					return false;
 				}
-				return null;
+			}
+		});
+	}
+	
+	/**
+	 * 续期凭证
+	 * @param key
+	 * @return
+	 */
+	public static boolean delay(final RedisTemplate<String, Object> redisTemplate, final String key) {
+		return redisTemplate.execute(new RedisCallback<Boolean>() {
+			public Boolean doInRedis(RedisConnection connection) {
+				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);
+
+				try {
+					ops.expireAt(Time.d().dd(+90).val());
+					return true;
+				} catch (Exception e) {
+					return false;
+				}
 			}
 		});
 	}
