@@ -8,21 +8,25 @@ import javax.servlet.http.*;
 import org.springframework.data.redis.core.*;
 import org.springframework.web.servlet.handler.*;
 
+import com.alibaba.fastjson.*;
 import com.soft.util.*;
 
 public class SecurityFilter extends HandlerInterceptorAdapter {
 
 	@Resource(name = "redisTemplate")
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate<String, String> redisTemplate;
 	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String auth = null;
 		String url = request.getServletPath().toString();
 		
 		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies)
-			if (cookie.getName().equals("auth"))
-				auth = cookie.getValue(); //读取凭证
+		if(cookies != null)
+			for (Cookie cookie : cookies)
+				if (cookie.getName().equals("auth")){
+					auth = cookie.getValue(); //读取凭证
+					break;
+				}
 		
 		if (auth == null || !Redis.checkAuth(redisTemplate, auth)) { //如果凭证为空直接拦截
 			if(!url.equals("/index.html") && !url.equals("/login.html")) //只放行登录页和登录操作
@@ -54,6 +58,9 @@ public class SecurityFilter extends HandlerInterceptorAdapter {
 		Redis.delay(redisTemplate, auth);
 		
 		request.setAttribute("user", user);
+		request.setAttribute("auth", auth);
+		request.setAttribute("path", request.getContextPath());
+		request.setAttribute("menu", JSONArray.parseArray(user.get("menu"), HashMap.class));
 		return super.preHandle(request, response, handler);
 	}
 }

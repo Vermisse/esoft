@@ -23,7 +23,7 @@
 				<form action="login.html" method="post">
 					<input type="text" name="user_name" placeholder="USERNAME" required th:value="${user_name}" />
 					<input type="password" name="password" placeholder="PASSWORD" required />
-					<div class="msg_panel" th:classappend="${message == null}? 'hide'" th:text="${message}">提示框</div>
+					<div class="msg_panel" th:if="${message != null}" th:text="${message}">提示框</div>
 					<div class="button-row">
 						<input type="submit" class="sign-in" value="登录" />
 						<input type="reset" class="reset" value="重置" />

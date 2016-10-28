@@ -45,7 +45,7 @@
 		<property name="mapperLocations">
 			<list>
 				<!-- Mybatis XML映射文件，可以配置多个 -->
-				<value>classpath*:com/soft/web/dao/user/*.xml</value>
+				<value>classpath*:com/soft/web/dao/**/*.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -55,7 +55,8 @@
 		<property name="basePackage">
 			<!-- 接口自动匹配Mapper，配置多个用逗号隔开 -->
 			<value>
-				com.soft.web.dao.user
+				com.soft.web.dao.user,
+				com.soft.web.dao.menu
 			</value>
 		</property>
 		<property name="sqlSessionFactoryBeanName" value="sessionFactory" />

@@ -11,6 +11,7 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.alibaba.fastjson.JSON;
 import com.soft.util.*;
 import com.soft.web.service.login.*;
 
@@ -21,7 +22,7 @@ public class LoginController {
 	private LoginService service;
 
 	@Resource(name = "redisTemplate")
-	private RedisTemplate<String, Object> redis;
+	private RedisTemplate<String, String> redis;
 
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request) {
@@ -48,7 +49,7 @@ public class LoginController {
 			return "index";
 		}
 
-		String auth = null;
+		String auth;
 		do {
 			auth = Text.randomText(18);
 		} while (Redis.checkAuth(redis, auth));
@@ -56,11 +57,14 @@ public class LoginController {
 		Cookie cookie = new Cookie("auth", auth);
 		cookie.setMaxAge(Integer.MAX_VALUE);
 		response.addCookie(cookie);
-
+		
 		boolean status = Redis.save(redis, auth, new HashMap<String, String>() {
 			{
 				put("user-agent", request.getHeader("user-agent"));
 				map.forEach((k, v) -> put(k, String.valueOf(v)));
+				
+				List<Map<String, String>> menu = service.queryMenu(get("group_id"));
+				put("menu", JSON.toJSONString(menu));
 			}
 		});
 		if (status) {
@@ -70,5 +74,12 @@ public class LoginController {
 			model.addAttribute("message", "登录失败！");
 			return "index";
 		}
+	}
+
+	@RequestMapping(value = "/logout")
+	public String logout(HttpServletRequest request){
+		String auth = (String)request.getAttribute("auth");
+		Redis.delete(redis, auth);
+		return "redirect:index.html";
 	}
 }

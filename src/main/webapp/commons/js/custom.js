@@ -1,13 +1,8 @@
-$(function() {
-
-    $('#side-menu').metisMenu();
-
-});
-
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function() {
+    $('#side-menu').metisMenu();
     $(window).bind("load resize", function() {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -33,4 +28,29 @@ $(function() {
     if (element.is('li')) {
         element.addClass('active');
     }
+
+	var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+		showLeftPush = document.getElementById( 'showLeftPush' ),
+		body = document.body;
+		
+	showLeftPush.onclick = function() {
+		classie.toggle( this, 'active' );
+		classie.toggle( body, 'cbp-spmenu-push-toright' );
+		classie.toggle( menuLeft, 'cbp-spmenu-open' );
+		disableOther( 'showLeftPush' );
+	};
+	
+
+	function disableOther( button ) {
+		if( button !== 'showLeftPush' ) {
+			classie.toggle( showLeftPush, 'disabled' );
+		}
+	}
+	
+	$("#logout").click(function (){
+		var form = $("<form></form>");  
+	    form.attr("action", path + "/logout.html");  
+	    form.attr("method", 'post');
+	    form.submit();
+	});
 });

@@ -12,7 +12,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static boolean checkAuth(final RedisTemplate<String, Object> redisTemplate, final String key) {
+	public static boolean checkAuth(final RedisTemplate<String, String> redisTemplate, final String key) {
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
 			public Boolean doInRedis(RedisConnection connection) {
 				byte[] bkey = redisTemplate.getStringSerializer().serialize(key);
@@ -28,7 +28,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static boolean save(final RedisTemplate<String, Object> redisTemplate, final String key, final Map<String, String> map) {
+	public static boolean save(final RedisTemplate<String, String> redisTemplate, final String key, final Map<String, String> map) {
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
 			public Boolean doInRedis(RedisConnection connection) {
 				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);
@@ -50,7 +50,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static Map<String, String> getMap(final RedisTemplate<String, Object> redisTemplate, final String key) {
+	public static Map<String, String> getMap(final RedisTemplate<String, String> redisTemplate, final String key) {
 		return redisTemplate.execute(new RedisCallback<Map<String, String>>() {
 			public Map<String, String> doInRedis(RedisConnection connection) {
 				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);
@@ -65,7 +65,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static boolean delete(final RedisTemplate<String, Object> redisTemplate, final String key) {
+	public static boolean delete(final RedisTemplate<String, String> redisTemplate, final String key) {
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
 			public Boolean doInRedis(RedisConnection connection) {
 				try {
@@ -83,7 +83,7 @@ public class Redis {
 	 * @param key
 	 * @return
 	 */
-	public static boolean delay(final RedisTemplate<String, Object> redisTemplate, final String key) {
+	public static boolean delay(final RedisTemplate<String, String> redisTemplate, final String key) {
 		return redisTemplate.execute(new RedisCallback<Boolean>() {
 			public Boolean doInRedis(RedisConnection connection) {
 				BoundHashOperations<String, String, String> ops = redisTemplate.boundHashOps(key);

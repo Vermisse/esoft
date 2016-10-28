@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.soft.web.dao.menu.MenuMapper">
+	
+	<select id="queryMenu" resultType="java.util.Map">
+		select
+			a.menu_id,
+			b.menu_name,
+			b.menu_icon,
+			b.menu_url,
+			b.parent_id
+		from
+			sys_group_menu a
+		join
+			sys_menu b
+		on
+			a.menu_id = b.menu_id
+		where
+			a.group_id = #{group_id}
+	</select>
+</mapper>

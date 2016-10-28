@@ -4,7 +4,7 @@ ul, ol {margin: 0;}
 p {margin: 0;}
 
 html, body{
-  	font-family: 'Roboto Condensed', sans-serif;
+  	font-family: 'Microsoft YaHei', sans-serif;
     font-size: 100%;
   	overflow-x: hidden;
 	background: #fff;
@@ -147,7 +147,7 @@ i.nav_icon {
 }
 .fa {
     display: inline-block;
-    font-family: FontAwesome;
+    font-family: 'Microsoft YaHei';
     font-style: normal;
     font-weight: normal;
     line-height: 1;
@@ -246,7 +246,7 @@ ul.dropdown-menu{
     padding: 0.5em 1em;
 	border: 2px solid rgba(79, 82, 186, 0.3);
 	-webkit-appearance: none; /* for box shadows to show on iOS */
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: 'Microsoft YaHei', sans-serif;
 }
 .sb-search-input::-webkit-input-placeholder {
 	color:#6164C1;

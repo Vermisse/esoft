@@ -12,9 +12,14 @@
 			t.real_name,
 			t.mobile,
 			t.group_id,
+			g.group_name,
 			t.status
 		from
 			sys_user t
+		join
+			sys_group g
+		on
+			t.group_id = g.group_id
 		where
 			t.user_name = #{user_name}
 	</select>

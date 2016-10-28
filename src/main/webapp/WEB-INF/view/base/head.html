@@ -1,0 +1,45 @@
+<head th:fragment="head (title)">
+	<title th:text="${title}">标题</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<!-- Bootstrap Core CSS -->
+	<link th:href='${path + "/commons/css/bootstrap.css"}' rel='stylesheet' type='text/css' />
+	<!-- Custom CSS -->
+	<link th:href='${path + "/commons/css/style.css"}' rel='stylesheet' type='text/css' />
+	<!-- font CSS -->
+	<!-- font-awesome icons -->
+	<link th:href='${path + "/commons/css/font-awesome.css"}' rel="stylesheet" />
+	<!-- //font-awe=some icons -->
+	 <!-- js-->
+	<script th:src='${path + "/commons/js/jquery/jquery-1.11.1.min.js"}'></script>
+	<script th:src='${path + "/commons/js/modernizr.custom.js"}'></script>
+	<!--animate-->
+	<link th:href='${path + "/commons/css/animate.css"}' rel="stylesheet" type="text/css" media="all" />
+	<script th:src='${path + "/commons/js/wow.min.js"}'></script>
+	<script th:inline="javascript">new WOW().init(); var path= /*[[${path }]]*/;</script>
+	<!--//end-animate-->
+	<!-- chart -->
+	<script th:src='${path + "/commons/js/Chart.js"}'></script>
+	<!-- //chart -->
+	<!--Calender-->
+	<link th:href='${path + "/commons/css/clndr.css"}' type="text/css" rel="stylesheet" />
+	<script th:src='${path + "/commons/js/underscore-min.js"}' type="text/javascript"></script>
+	<script th:src='${path + "/commons/js/moment-2.2.1.js"}' type="text/javascript"></script>
+	<script th:src='${path + "/commons/js/clndr.js"}' type="text/javascript"></script>
+	<script th:src='${path + "/commons/js/site.js"}' type="text/javascript"></script>
+	<!--End Calender-->
+	<!-- Metis Menu -->
+	<script th:src='${path + "/commons/js/metisMenu.min.js"}'></script>
+	<script th:src='${path + "/commons/js/custom.js"}'></script>
+	<link th:href='${path + "/commons/css/custom.css"}' rel="stylesheet">
+	<!--//Metis Menu -->
+	<!--scrolling js-->
+	<script th:src='${path + "/commons/js/jquery/jquery.nicescroll.js"}'></script>
+	<script th:src='${path + "/commons/js/scripts.js"}'></script>
+	<!--//scrolling js-->
+	<!-- Bootstrap Core JavaScript -->
+	<script th:src='${path + "/commons/js/bootstrap/bootstrap.js"}'></script>
+	<!-- Classie -->
+	<script th:src='${path + "/commons/js/classie.js"}'></script>
+</head>
