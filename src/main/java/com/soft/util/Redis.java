@@ -72,6 +72,7 @@ public class Redis {
 					connection.del(redisTemplate.getStringSerializer().serialize(key));
 					return true;
 				} catch (Exception e) {
+					e.printStackTrace();
 					return false;
 				}
 			}
@@ -92,6 +93,7 @@ public class Redis {
 					ops.expireAt(Time.d().dd(+90).val());
 					return true;
 				} catch (Exception e) {
+					e.printStackTrace();
 					return false;
 				}
 			}

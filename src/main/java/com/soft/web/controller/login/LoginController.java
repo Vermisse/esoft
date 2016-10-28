@@ -11,26 +11,47 @@ import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.*;
 import com.soft.util.*;
 import com.soft.web.service.login.*;
 
+/**
+ * 登录Controller
+ * 
+ * @author vermisse
+ */
 @Controller
 public class LoginController {
-
+	/**
+	 * 登录Service
+	 */
 	@Autowired
 	private LoginService service;
-
+	
+	/**
+	 * Redis模板
+	 */
 	@Resource(name = "redisTemplate")
 	private RedisTemplate<String, String> redis;
-
+	
+	/**
+	 * 进入首页
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/index")
 	public String index(HttpServletRequest request) {
 		if (request.getAttribute("user") == null)
-			return "index";
-		return "main";
+			return "index"; //未登录
+		return "main"; //已登录
 	}
-
+	
+	/**
+	 * 登录
+	 * @param 账号
+	 * @param 密码
+	 * @return
+	 */
 	@RequestMapping(value = "/login")
 	public String login(String user_name, String password, Model model, HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> map = service.login(user_name);
@@ -63,6 +84,7 @@ public class LoginController {
 				put("user-agent", request.getHeader("user-agent"));
 				map.forEach((k, v) -> put(k, String.valueOf(v)));
 				
+				//这里需要修改，菜单单独缓存，没有必要放在用户下级
 				List<Map<String, String>> menu = service.queryMenu(get("group_id"));
 				put("menu", JSON.toJSONString(menu));
 			}
@@ -75,7 +97,12 @@ public class LoginController {
 			return "index";
 		}
 	}
-
+	
+	/**
+	 * 注销
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/logout")
 	public String logout(HttpServletRequest request){
 		String auth = (String)request.getAttribute("auth");

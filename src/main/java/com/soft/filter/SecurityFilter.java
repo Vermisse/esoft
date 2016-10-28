@@ -11,6 +11,9 @@ import org.springframework.web.servlet.handler.*;
 import com.alibaba.fastjson.*;
 import com.soft.util.*;
 
+/**
+ * 权限过滤器
+ */
 public class SecurityFilter extends HandlerInterceptorAdapter {
 
 	@Resource(name = "redisTemplate")
@@ -60,7 +63,9 @@ public class SecurityFilter extends HandlerInterceptorAdapter {
 		request.setAttribute("user", user);
 		request.setAttribute("auth", auth);
 		request.setAttribute("path", request.getContextPath());
-		request.setAttribute("menu", JSONArray.parseArray(user.get("menu"), HashMap.class));
+		
+		//这里需要修改，权限直接缓存，不在用户下级，没必要重复缓存
+		request.setAttribute("menu", JSONArray.parseArray(user.get("menu"), Map.class));
 		return super.preHandle(request, response, handler);
 	}
 }
