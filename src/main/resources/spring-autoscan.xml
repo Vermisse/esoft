@@ -11,8 +11,7 @@
 			http://www.springframework.org/schema/context
 			http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 	
-	<context:component-scan base-package="com.soft.web.controller.login"/>
-	<context:component-scan base-package="com.soft.web.service.login"/>
+	<context:component-scan base-package="com.soft"/>
 	
 	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 -->
 	<mvc:annotation-driven />
