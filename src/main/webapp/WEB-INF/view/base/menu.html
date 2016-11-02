@@ -3,9 +3,10 @@
 		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 			<ul class="nav" id="side-menu">
 				<li th:each="item : ${menu}">
-					<a href="index.html" class="active" th:if="${item.parent_id == ''}">
+					<a th:href="${item.menu_url == '' ? 'javascript:void(0);' : menu_url}" th:if="${item.parent_id == ''}">
 						<i class="fa fa-home nav_icon" th:classappend="${item.menu_icon}"></i>
 						<span th:text="${item.menu_name}">菜单名</span>
+						<span class="fa arrow" th:if="${item.cnt > 0}"></span>
 					</a>
 				</li>
 				<li>

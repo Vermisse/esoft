@@ -10,7 +10,10 @@
 			b.menu_name,
 			b.menu_icon,
 			b.menu_url,
-			b.parent_id
+			b.parent_id,
+			case b.parent_id when ''
+			then (select count(*) from sys_menu t where t.parent_id = a.menu_id)
+			end as cnt
 		from
 			sys_group_menu a
 		join
