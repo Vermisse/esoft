@@ -3,11 +3,16 @@
 		<nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
 			<ul class="nav" id="side-menu">
 				<li th:each="item : ${menu}">
-					<a th:href="${item.menu_url == '' ? 'javascript:void(0);' : menu_url}" th:if="${item.parent_id == ''}">
+					<a th:href="${item.menu_url == '' ? 'javascript:void(0);' : path + item.menu_url}" th:if="${item.parent_id == ''}">
 						<i class="fa fa-home nav_icon" th:classappend="${item.menu_icon}"></i>
 						<span th:text="${item.menu_name}">菜单名</span>
 						<span class="fa arrow" th:if="${item.cnt > 0}"></span>
 					</a>
+					<ul class="nav nav-second-level collapse" th:if="${item.parent_id == '' && item.cnt > 0}">
+						<li th:each="second : ${menu}">
+							<a th:if="${second.parent_id == item.menu_id}" th:href="${path + second.menu_url}" th:text="${second.menu_name}">二级菜单名</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="#"><i class="fa fa-cogs nav_icon"></i>Components <span class="nav-badge">12</span> <span class="fa arrow"></span></a>
