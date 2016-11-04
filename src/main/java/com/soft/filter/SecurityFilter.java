@@ -12,7 +12,7 @@ import com.alibaba.fastjson.*;
 import com.soft.util.*;
 
 /**
- * 权限过滤器
+ * 登录权限过滤器
  */
 public class SecurityFilter extends HandlerInterceptorAdapter {
 

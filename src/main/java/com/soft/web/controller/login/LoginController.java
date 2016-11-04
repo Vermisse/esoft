@@ -72,6 +72,7 @@ public class LoginController {
 
 		String auth;
 		do {
+			// 生成登录凭证
 			auth = Text.randomText(18);
 		} while (Redis.checkAuth(redis, auth));
 		

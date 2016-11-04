@@ -38,9 +38,7 @@
 
 	<!-- 加载数据源 -->
 	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
+		<property name="dataSource" ref="dataSource" />
 		<!-- Mybatis XML映射文件 -->
 		<property name="mapperLocations">
 			<list>
@@ -55,19 +53,15 @@
 		<property name="basePackage">
 			<!-- 接口自动匹配Mapper，配置多个用逗号隔开 -->
 			<value>
-				com.soft.web.dao.user,
-				com.soft.web.dao.menu
+				com.soft.web.dao.*
 			</value>
 		</property>
 		<property name="sqlSessionFactoryBeanName" value="sessionFactory" />
 	</bean>
 
 	<!-- 数据库事务策略 -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource">
-			<ref bean="dataSource" />
-		</property>
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
 	</bean>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
