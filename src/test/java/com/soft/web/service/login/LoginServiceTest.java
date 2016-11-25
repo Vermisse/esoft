@@ -3,14 +3,11 @@ package com.soft.web.service.login;
 import java.util.*;
 
 import org.junit.*;
-import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.*;
-import org.springframework.test.context.*;
-import org.springframework.test.context.junit4.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/spring-test.xml")
-public class LoginServiceTest {
+import com.soft.util.*;
+
+public class LoginServiceTest extends BaseTest {
 
 	@Autowired
 	private LoginService service;
@@ -18,12 +15,12 @@ public class LoginServiceTest {
 	@Test
 	public void testLogin() {
 		Map<String, Object> map = service.login("admin");
-		System.out.println(map.get("user_name"));
-		System.out.println(map.get("password"));
+		System.out.println("Username:" + map.get("user_name"));
+		System.out.println("Password:" + map.get("password"));
 	}
 
 	@Test
 	public void testQueryMenu() {
-		//fail("Not yet implemented");
+		System.out.println(service.queryMenu("1"));
 	}
 }
